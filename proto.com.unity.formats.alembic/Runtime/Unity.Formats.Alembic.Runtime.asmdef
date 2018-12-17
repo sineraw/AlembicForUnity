@@ -1,6 +1,8 @@
 {
   "name": "Unity.Formats.Alembic.Runtime",
-  "references": [],
+  "references": [
+    "Unity.Timeline"
+  ],
   "optionalUnityReferences": [],
   "includePlatforms": [
     "Editor",

@@ -1,5 +1,6 @@
 {
     "dependencies": {
+        "com.unity.timeline": "0.0.0-builtin",
         "com.unity.modules.cloth":  "1.0.0",
         "com.unity.modules.particlesystem": "1.0.0"
     },
@@ -20,6 +21,6 @@
         "revision": "@PACKAGE_REVISION@",
         "url": "ssh://git@github.com/unity3d-jp/AlembicForUnity.git"
     }, 
-    "unity": "2018.1",
+    "unity": "2018.3.1",
     "version": "@PACKAGE_VERSION@"
 }
