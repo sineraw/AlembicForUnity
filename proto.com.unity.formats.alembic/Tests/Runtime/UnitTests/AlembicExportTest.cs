@@ -13,7 +13,7 @@ namespace UnityEditor.Formats.Alembic.Exporter.UnitTests {
     {
         public void Setup()
         {
-            var fullPath = Path.GetFullPath("Packages/com.unity.formats.alembic/Tests");
+            var fullPath = Path.GetFullPath("Assets/");
             var scenes = Directory.GetFiles(fullPath, "*.unity", SearchOption.AllDirectories);
             EditorBuildSettings.scenes = scenes.Select(x => new EditorBuildSettingsScene(x, true)).ToArray();
         }

@@ -60,7 +60,6 @@ ScriptedImporter:
     11400008: MVPCloth/MVPCloth/nRigid1/nRigidShape1/MonoBehaviour-UnityEngine.Formats.Alembic.Importer.AlembicPointsRenderer
     11400010: MVPCloth_ABCDesc
     100100000: MVPCloth
-    2186277476908879412: ImportLogs
   externalObjects: {}
   userData: 
   assetBundleName: 
@@ -70,17 +69,18 @@ ScriptedImporter:
     normals: 1
     tangents: 1
     cameraAspectRatio: 2
+    importVisibility: 1
     scaleFactor: 0.01
     swapHandedness: 1
-    swapFaceWinding: 0
+    flipFaces: 0
     turnQuadEdges: 0
     interpolateSamples: 1
     importPointPolygon: 1
     importLinePolygon: 1
     importTrianglePolygon: 1
     importXform: 1
-    importCamera: 1
-    importPolyMesh: 1
+    importCameras: 1
+    importMeshes: 1
     importPoints: 1
   abcStartTime: 0.041666666666666664
   abcEndTime: 4.583333333333333
@@ -89,3 +89,4 @@ ScriptedImporter:
   importWarning: 
   varyingTopologyMeshNames: []
   splittingMeshNames: []
+  firstImport: 0

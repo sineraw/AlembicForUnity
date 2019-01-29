@@ -4,5 +4,35 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: /Users/vladal/git/AlembicForUnity/TestProjects/AlembicImporter/Assets/InitTestScene636843646092637410.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: /Users/vladal/git/AlembicForUnity/TestProjects/AlembicImporter/Assets/TestCloth.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: /Users/vladal/git/AlembicForUnity/TestProjects/AlembicImporter/Assets/TestCreateAndDelete.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: /Users/vladal/git/AlembicForUnity/TestProjects/AlembicImporter/Assets/TestCustomCapturer.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: /Users/vladal/git/AlembicForUnity/TestProjects/AlembicImporter/Assets/TestExport.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: /Users/vladal/git/AlembicForUnity/TestProjects/AlembicImporter/Assets/TestGUI.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: /Users/vladal/git/AlembicForUnity/TestProjects/AlembicImporter/Assets/RoundtripTests/Blendshapes.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: /Users/vladal/git/AlembicForUnity/TestProjects/AlembicImporter/Assets/RoundtripTests/BoneDriven.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: /Users/vladal/git/AlembicForUnity/TestProjects/AlembicImporter/Assets/RoundtripTests/RainParticles.unity
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: /Users/vladal/git/AlembicForUnity/TestProjects/AlembicImporter/Assets/RoundtripTests/nCloth.unity
+    guid: 00000000000000000000000000000000
   m_configObjects: {}
