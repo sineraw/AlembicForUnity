@@ -19,6 +19,7 @@ platforms:
     image: {{ platform.image }}
     flavor: {{ platform.flavor}}
   commands:
+      - git submodule update --init --recursive
       {% if platform.name == 'win' %}
       - build.cmd
       {% else %}
