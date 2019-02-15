@@ -22,7 +22,7 @@ platforms:
       {% if platform.name == 'win' %}
       - build.cmd
       {% else %}
-      - build.sh
+      - ./build.sh
       {% endif %}
       - npm install upm-ci-utils -g --registry https://api.bintray.com/npm/unity/unity-npm
       - upm-ci package pack --package-path build/install/com.unity.formats.alembic
