@@ -3,7 +3,7 @@ editors:
 platforms:
   - name: win
     type: Unity::VM
-    image: package-ci/win10:latest
+    image: package-ci/win10:v1.4.0
     flavor: m1.large
   - name: mac
     type: Unity::VM::osx
