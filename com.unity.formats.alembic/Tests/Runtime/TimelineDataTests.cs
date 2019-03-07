@@ -19,7 +19,7 @@ namespace UnityEditor.Formats.Alembic.Exporter.UnitTests
          protected readonly List<string> deleteFileList = new List<string>();
          const string sceneName = "Scene";
          
-         protected  void TestAbcImported (string abcPath, double minDuration = 0.1) 
+         protected  GameObject TestAbcImported (string abcPath, double minDuration = 0.1) 
          {
              AssetDatabase.Refresh ();
              Assert.That (File.Exists (abcPath));
@@ -32,6 +32,8 @@ namespace UnityEditor.Formats.Alembic.Exporter.UnitTests
 
              var player = go.GetComponent<AlembicStreamPlayer>();
              Assert.GreaterOrEqual(player.duration,minDuration ); // More than empty
+
+             return go;
          }
         
          protected IEnumerator RecordAlembic() {
@@ -73,7 +75,7 @@ namespace UnityEditor.Formats.Alembic.Exporter.UnitTests
 
              foreach (var file in deleteFileList)
              {
-                 File.Delete(file);
+                File.Delete(file);
              }
          }
     }
@@ -81,8 +83,23 @@ namespace UnityEditor.Formats.Alembic.Exporter.UnitTests
     public class TimelineDataTests : BaseFixture
     {
         PlayableDirector director;
-       
 
+        static IEnumerator TestCubeContents(GameObject go)
+        {
+            var root = PrefabUtility.InstantiatePrefab(go) as GameObject;
+            var player = root.GetComponent<AlembicStreamPlayer>();
+            player.AsyncLoad = false;
+
+            var cube = root.transform.GetChild(1).gameObject; // First is Camera, Second is Cube
+            player.CurrentTime = 0;
+            yield return new WaitForEndOfFrame();
+            var t0 = cube.transform.localPosition;
+            player.CurrentTime = (float)player.duration;
+            yield return new WaitForEndOfFrame();
+            var t1  = cube.transform.localPosition;
+            Assert.AreNotEqual(t0,t1);
+        }
+        
         [SetUp]
         public new void SetUp()
         {
@@ -101,8 +118,6 @@ namespace UnityEditor.Formats.Alembic.Exporter.UnitTests
             director.SetGenericBinding(aTrack,cube);
         }
 
-
-
         [UnityTest]
         public IEnumerator  TestOneShotExport()
         {
@@ -120,7 +135,8 @@ namespace UnityEditor.Formats.Alembic.Exporter.UnitTests
             exporter.recorder.settings.conf.TimeSamplingType = (aeTimeSamplingType)sampleType;
             yield return RecordAlembic();
             deleteFileList.Add(exporter.recorder.settings.OutputPath);
-            TestAbcImported (exporter.recorder.settings.OutputPath);
+            var go = TestAbcImported (exporter.recorder.settings.OutputPath);
+            yield return TestCubeContents(go);
         }
         
         [UnityTest]
@@ -130,7 +146,8 @@ namespace UnityEditor.Formats.Alembic.Exporter.UnitTests
             exporter.recorder.settings.conf.XformType = (aeXformType) xFormType;
             yield return RecordAlembic();
             deleteFileList.Add(exporter.recorder.settings.OutputPath);
-            TestAbcImported (exporter.recorder.settings.OutputPath);
+            var go = TestAbcImported (exporter.recorder.settings.OutputPath);
+            yield return TestCubeContents(go);
         }
         
         [UnityTest]
@@ -140,7 +157,8 @@ namespace UnityEditor.Formats.Alembic.Exporter.UnitTests
             exporter.recorder.settings.conf.ArchiveType = (aeArchiveType) archiveType;
             yield return RecordAlembic();
             deleteFileList.Add(exporter.recorder.settings.OutputPath);
-            TestAbcImported (exporter.recorder.settings.OutputPath);
+            var go = TestAbcImported (exporter.recorder.settings.OutputPath);
+            yield return TestCubeContents(go);
         }
         
         [UnityTest]
@@ -150,7 +168,8 @@ namespace UnityEditor.Formats.Alembic.Exporter.UnitTests
             exporter.recorder.settings.conf.SwapHandedness = swap;
             yield return RecordAlembic();
             deleteFileList.Add(exporter.recorder.settings.OutputPath);
-            TestAbcImported (exporter.recorder.settings.OutputPath);
+            var go = TestAbcImported (exporter.recorder.settings.OutputPath);
+            yield return TestCubeContents(go);
         }
         
         
@@ -162,7 +181,8 @@ namespace UnityEditor.Formats.Alembic.Exporter.UnitTests
             exporter.recorder.settings.conf.SwapFaces = swap;
             yield return RecordAlembic();
             deleteFileList.Add(exporter.recorder.settings.OutputPath);
-            TestAbcImported (exporter.recorder.settings.OutputPath);
+            var go = TestAbcImported (exporter.recorder.settings.OutputPath);
+            yield return TestCubeContents(go);
         }
         
         [UnityTest]
@@ -172,7 +192,8 @@ namespace UnityEditor.Formats.Alembic.Exporter.UnitTests
             exporter.recorder.settings.conf.ScaleFactor = 1;
             yield return RecordAlembic();
             deleteFileList.Add(exporter.recorder.settings.OutputPath);
-            TestAbcImported (exporter.recorder.settings.OutputPath);
+            var go = TestAbcImported (exporter.recorder.settings.OutputPath);
+            yield return TestCubeContents(go);
         }
         
         [UnityTest]
@@ -183,12 +204,30 @@ namespace UnityEditor.Formats.Alembic.Exporter.UnitTests
             exporter.maxCaptureFrame = 30;
             yield return RecordAlembic();
             deleteFileList.Add(exporter.recorder.settings.OutputPath);
-            TestAbcImported (exporter.recorder.settings.OutputPath);
+            var go = TestAbcImported (exporter.recorder.settings.OutputPath);
+            yield return TestCubeContents(go);
         }
     }
 
     public class ClothTests : BaseFixture
     {
+        
+        static IEnumerator TestPlaneContents(GameObject go)
+        {
+            var root = PrefabUtility.InstantiatePrefab(go) as GameObject;
+            var player = root.GetComponent<AlembicStreamPlayer>();
+            player.AsyncLoad = false;
+
+            var meshFiler = root.GetComponentInChildren<MeshFilter>();
+            player.CurrentTime = 0;
+            yield return new WaitForEndOfFrame();
+            var t0 = meshFiler.sharedMesh.vertices[0];
+            player.CurrentTime = (float)player.duration;
+            yield return new WaitForEndOfFrame();
+            var t1 = meshFiler.sharedMesh.vertices[0];
+            Assert.AreNotEqual(t0,t1);
+        }
+        
         [SetUp]
         public new void SetUp()
         {
@@ -205,7 +244,8 @@ namespace UnityEditor.Formats.Alembic.Exporter.UnitTests
         {
             yield return RecordAlembic();
             deleteFileList.Add(exporter.recorder.settings.OutputPath);
-            TestAbcImported (exporter.recorder.settings.OutputPath);
+            var go = TestAbcImported (exporter.recorder.settings.OutputPath);
+            yield return TestPlaneContents(go);
         }
     }
 }
