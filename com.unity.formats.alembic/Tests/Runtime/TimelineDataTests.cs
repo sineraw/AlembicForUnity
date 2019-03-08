@@ -13,73 +13,6 @@ using UnityEngine.TestTools;
 
 namespace UnityEditor.Formats.Alembic.Exporter.UnitTests
 {
-    public class BaseFixture
-    {
-         internal AlembicExporter exporter;
-         protected readonly List<string> deleteFileList = new List<string>();
-         const string sceneName = "Scene";
-         
-         protected  GameObject TestAbcImported (string abcPath, double minDuration = 0.1) 
-         {
-             AssetDatabase.Refresh ();
-             Assert.That (File.Exists (abcPath));
-
-             // now try loading the asset to see if it imported properly
-             var obj = AssetDatabase.LoadMainAssetAtPath (abcPath);
-             Assert.That (obj, Is.Not.Null);
-             var go = obj as GameObject;
-             Assert.That (go, Is.Not.Null);
-
-             var player = go.GetComponent<AlembicStreamPlayer>();
-             Assert.GreaterOrEqual(player.duration,minDuration ); // More than empty
-
-             return go;
-         }
-        
-         protected IEnumerator RecordAlembic() {
-             exporter.BeginRecording ();
-
-             while (!exporter.recorder.recording) {
-                 yield return null;
-             }
-
-             while (exporter.recorder.recording) {
-                 yield return null;
-             }
-         }
-
-         [SetUp]
-         public void SetUp()
-         {
-             var scene = SceneManager.CreateScene(sceneName);
-             SceneManager.SetActiveScene(scene);
-             var go = new GameObject("Recorder");
-             exporter = go.AddComponent<AlembicExporter>();
-             exporter.maxCaptureFrame = 10;
-             exporter.recorder.settings.OutputPath = "Assets/"+Path.GetFileNameWithoutExtension(Path.GetTempFileName())+".abc";
-             exporter.captureOnStart = false;
-             
-             var cam = new GameObject("Cam");
-             cam.AddComponent<Camera>();
-             cam.transform.localPosition = new Vector3(0,1,-10);
-         }
-
-         [UnityTearDown]
-         public IEnumerator TearDown()
-         {
-             var asyncOperation = SceneManager.UnloadSceneAsync(sceneName);
-             while (!asyncOperation.isDone)
-             {
-                 yield return null;
-             }
-
-             foreach (var file in deleteFileList)
-             {
-                File.Delete(file);
-             }
-         }
-    }
-
     public class TimelineDataTests : BaseFixture
     {
         PlayableDirector director;
@@ -88,7 +21,6 @@ namespace UnityEditor.Formats.Alembic.Exporter.UnitTests
         {
             var root = PrefabUtility.InstantiatePrefab(go) as GameObject;
             var player = root.GetComponent<AlembicStreamPlayer>();
-            player.AsyncLoad = false;
 
             var cube = root.transform.GetChild(1).gameObject; // First is Camera, Second is Cube
             player.CurrentTime = 0;
@@ -206,46 +138,6 @@ namespace UnityEditor.Formats.Alembic.Exporter.UnitTests
             deleteFileList.Add(exporter.recorder.settings.OutputPath);
             var go = TestAbcImported (exporter.recorder.settings.OutputPath);
             yield return TestCubeContents(go);
-        }
-    }
-
-    public class ClothTests : BaseFixture
-    {
-        
-        static IEnumerator TestPlaneContents(GameObject go)
-        {
-            var root = PrefabUtility.InstantiatePrefab(go) as GameObject;
-            var player = root.GetComponent<AlembicStreamPlayer>();
-            player.AsyncLoad = false;
-
-            var meshFiler = root.GetComponentInChildren<MeshFilter>();
-            player.CurrentTime = 0;
-            yield return new WaitForEndOfFrame();
-            var t0 = meshFiler.sharedMesh.vertices[0];
-            player.CurrentTime = (float)player.duration;
-            yield return new WaitForEndOfFrame();
-            var t1 = meshFiler.sharedMesh.vertices[0];
-            Assert.AreNotEqual(t0,t1);
-        }
-        
-        [SetUp]
-        public new void SetUp()
-        {
-            var sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            sphere.transform.localPosition = new Vector3(0,-1,0);
-            var plane = GameObject.CreatePrimitive(PrimitiveType.Plane);
-            var cloth = plane.AddComponent<Cloth>();
-            cloth.sphereColliders = new[] {new ClothSphereColliderPair(sphere.GetComponent<SphereCollider>())};
-            cloth.clothSolverFrequency = 300;
-        }
-        
-        [UnityTest]
-        public IEnumerator TestDefaultExportParams()
-        {
-            yield return RecordAlembic();
-            deleteFileList.Add(exporter.recorder.settings.OutputPath);
-            var go = TestAbcImported (exporter.recorder.settings.OutputPath);
-            yield return TestPlaneContents(go);
         }
     }
 }
