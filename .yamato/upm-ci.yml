@@ -18,6 +18,7 @@ build_win:
     image: package-ci/win10:stable
     flavor: m1.large
   commands:
+    - git submodule update --init --recursive
     - build.cmd
   artifacts:
     packages:
@@ -31,6 +32,7 @@ build_mac:
     image: buildfarm/mac:stable
     flavor: m1.mac
   commands:
+    - git submodule update --init --recursive
     - ./build.sh
   artifacts:
     packages:
@@ -44,6 +46,7 @@ pack:
     image: package-ci/win10:stable
     flavor: m1.large
   commands:
+    - dir
     - npm install upm-ci-utils -g --registry https://api.bintray.com/npm/unity/unity-npm
     - upm-ci package pack --package-path build/install/com.unity.formats.alembic
   artifacts:
@@ -63,12 +66,6 @@ test_{{ platform.name }}_{{ editor.version }}:
     image: {{ platform.image }}
     flavor: {{ platform.flavor}}
   commands:
-      - git submodule update --init --recursive
-      {% if platform.name == 'win' %}
-      - build.cmd
-      {% else %}
-      - ./build.sh
-      {% endif %}
       - npm install upm-ci-utils -g --registry https://api.bintray.com/npm/unity/unity-npm
       - upm-ci package pack --package-path build/install/com.unity.formats.alembic
       - upm-ci package test --unity-version {{ editor.version }} --package-path build/install/com.unity.formats.alembic
