@@ -22,10 +22,7 @@ build_win:
   artifacts:
     build:
       paths:
-        - "build/*"
-    all:
-      paths:
-        - "*/*"
+        - "build/**/*"
 
 build_mac:
   name: Build Mac
@@ -39,10 +36,7 @@ build_mac:
   artifacts:
     build:
       paths:
-        - "build/*"
-    all:
-      paths:
-        - "*/*"
+        - "build/**/*"
 
 pack:
   name: Pack
