@@ -1,5 +1,6 @@
-using UnityEngine;
-using UnityEngine.UI;
+
+
+using System.IO;
 
 namespace UnityEngine.Formats.Alembic.Importer
 {
@@ -9,7 +10,15 @@ namespace UnityEngine.Formats.Alembic.Importer
         private string pathToAbc;
         public string PathToAbc
         {
-            get { return pathToAbc; }
+            // For standalone builds, the path should be relative to the StreamingAssets
+            get
+            {
+#if UNITY_STANDALONE
+                return Path.Combine(Application.streamingAssetsPath, pathToAbc);
+#else
+                return pathToAbc;
+#endif
+            }
             set { pathToAbc = value; }
         }
 
