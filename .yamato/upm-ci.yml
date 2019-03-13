@@ -1,5 +1,4 @@
 editors:
-  - version: 2018.3
   - version: trunk
 platforms:
   - name: win
@@ -21,9 +20,12 @@ build_win:
     - git submodule update --init --recursive
     - build.cmd
   artifacts:
-    packages:
+    build:
       paths:
-        - "build"
+        - "build/*"
+    all:
+      paths:
+        - "*/*"
 
 build_mac:
   name: Build Mac
@@ -35,9 +37,12 @@ build_mac:
     - git submodule update --init --recursive
     - ./build.sh
   artifacts:
-    packages:
+    build:
       paths:
-        - "build"
+        - "build/*"
+    all:
+      paths:
+        - "*/*"
 
 pack:
   name: Pack
