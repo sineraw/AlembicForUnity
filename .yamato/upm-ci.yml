@@ -66,8 +66,7 @@ test_{{ platform.name }}_{{ editor.version }}:
     flavor: {{ platform.flavor}}
   commands:
       - npm install upm-ci-utils -g --registry https://api.bintray.com/npm/unity/unity-npm
-      - upm-ci package pack --package-path build/install/com.unity.formats.alembic
-      - upm-ci package test --unity-version {{ editor.version }} --package-path build/install/com.unity.formats.alembic
+      - upm-ci package test --unity-version {{ editor.version }}
   artifacts:
     logs.zip:
       paths:
