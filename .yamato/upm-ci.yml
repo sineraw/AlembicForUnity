@@ -52,6 +52,9 @@ pack:
    packages:
      paths:
        - "upm-ci~/packages/*.tgz"
+   all:
+     paths:
+       - "*/*"
   dependencies:
     - .yamato/upm-ci.yml#build_win
     - .yamato/upm-ci.yml#build_mac
