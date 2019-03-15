@@ -55,9 +55,6 @@ pack:
    build:
      paths:
        - "build/**/*"
-   all:
-     paths:
-       - "**/*"
   dependencies:
     - .yamato/upm-ci.yml#build_win
     - .yamato/upm-ci.yml#build_mac
