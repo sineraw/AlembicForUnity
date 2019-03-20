@@ -68,7 +68,7 @@ test_{{ platform.name }}_{{ editor.version }}:
     image: {{ platform.image }}
     flavor: {{ platform.flavor}}
   commands:
-    - git clone --branch release/v0.9.0 --single-branch git@gitlab.cds.internal.unity3d.com:upm-packages/project-templates/upm-template-utils.git upm-ci-utils
+    - git clone --branch fix/disable-batchmode --single-branch git@gitlab.cds.internal.unity3d.com:upm-packages/project-templates/upm-template-utils.git upm-ci-utils
     - npm install upm-ci-utils/ -g
     - upm-ci package test --unity-version {{ editor.version }} --package-path build/install/com.unity.formats.alembic --disable-batchmode true
   artifacts:
