@@ -51,7 +51,7 @@ pack:
   artifacts:
    packages:
      paths:
-       - "upm-ci~/packages/*.tgz"
+       - "upm-ci~/packages/**/*"
    build:
      paths:
        - "build/**/*"
@@ -105,7 +105,7 @@ test_trigger:
         - "upm-ci~/test-results/**/*"
     packages:
       paths:
-        - "upm-ci~/packages/*.tgz"
+        - "upm-ci~/packages/**/*"
   dependencies:
     - .yamato/upm-ci.yml#pack
     {% for editor in editors %}
