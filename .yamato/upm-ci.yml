@@ -114,15 +114,14 @@ test_trigger:
     {% endfor %}
     {% endfor %}
 
-run_preview_verified_staging:
-  name: Preview and Verified Packages to Staging
+publish:
+  name: Publish
   agent:
     type: Unity::VM
     image: package-ci/win10:latest
     flavor: m1.large
     name: Runner
   commands:
-    # Install ci tools dependencies
     - npm install upm-ci-utils -g --registry https://api.bintray.com/npm/unity/unity-npm
     - upm-ci package publish
   triggers:
